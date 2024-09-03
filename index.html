@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realidade Aumentada com Locais Cadastrados</title>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+    #info-box {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: white;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>RA com Locais Personalizados</h1>
+  <div id="map"></div>
+  <div id="info-box">
+    <h2 id="place-name"></h2>
+    <p id="place-description"></p>
+    <img id="place-image" src="" alt="" width="200">
+    <video id="place-video" controls width="200"></video>
+  </div>
+
+  <!-- Google Maps JavaScript API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPJ24Z0591gmYlaslFTh4KZnfGMoZPwS4&libraries=places"></script>
+
+  <script>
+    let locaisCadastrados = [];
+
+    // Carrega os locais cadastrados
+    async function carregarLocais() {
+      try {
+        const response = await fetch('locais.json');
+        locaisCadastrados = await response.json();
+      } catch (error) {
+        console.error('Erro ao carregar os locais cadastrados:', error);
+      }
+    }
+
+    function initMap() {
+      // Mapa centrado na localização atual do usuário
+      const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+      });
+
+      // Obtém a localização do usuário
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+        map.setCenter(userLocation);
+
+        // Adiciona um marcador para a posição do usuário
+        new google.maps.Marker({
+          position: userLocation,
+          map: map,
+          title: 'Você está aqui',
+        });
+
+        // Verifica se o usuário está próximo de algum local cadastrado
+        verificarProximidade(userLocation, map);
+      }, showError);
+    }
+
+    function verificarProximidade(userLocation, map) {
+      locaisCadastrados.forEach((local) => {
+        const localPosicao = { lat: local.latitude, lng: local.longitude };
+        const distancia = calcularDistancia(userLocation, localPosicao);
+
+        // Define uma distância de proximidade (por exemplo, 500 metros)
+        if (distancia < 0.5) { // 0.5 km = 500 metros
+          const marker = new google.maps.Marker({
+            position: localPosicao,
+            map: map,
+            title: local.nome,
+            icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+          });
+
+          // Exibe as informações quando o ícone é clicado
+          marker.addListener('click', () => {
+            mostrarInformacoes(local);
+          });
+        }
+      });
+    }
+
+    function calcularDistancia(loc1, loc2) {
+      const R = 6371; // Raio da Terra em km
+      const dLat = (loc2.lat - loc1.lat) * (Math.PI / 180);
+      const dLon = (loc2.lng - loc1.lng) * (Math.PI / 180);
+      const a = 
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(loc1.lat * (Math.PI / 180)) * Math.cos(loc2.lat * (Math.PI / 180)) * 
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c; // Distância em km
+    }
+
+    function mostrarInformacoes(local) {
+      document.getElementById('place-name').innerText = local.nome;
+      document.getElementById('place-description').innerText = local.descricao;
+      document.getElementById('place-image').src = local.imagem;
+      document.getElementById('place-video').src = local.video;
+      document.getElementById('info-box').style.display = 'block';
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert('Permissão de localização negada.');
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert('Localização indisponível.');
+          break;
+        case error.TIMEOUT:
+          alert('O pedido para obter a localização demorou muito.');
+          break;
+        default:
+          alert('Erro desconhecido.');
+          break;
+      }
+    }
+
+    window.onload = async () => {
+      await carregarLocais();
+      initMap();
+    };
+  </script>
+</body>
+</html>
