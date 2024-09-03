@@ -1,12 +1,23 @@
 [
-    {
-      "id": 1,
-      "nome": "Biblioteca Antiga e Museu de Antiguidades",
-      "descricao": "Uma biblioteca histórica com um museu de antiguidades.",
-      "imagem": "https://raw.githubusercontent.com/theonascimento/Arjs-ImageMaker/main/IMG_20240830_141443.jpg",
-      "video": "https://www.youtube.com/watch?v=FWAYD0c3AwE",
-      "latitude": -20.950442,
-      "longitude": -41.341745
-    }
-  ]
+  {
+    "id": 1,
+    "nome": "Biblioteca Antiga e Museu de Antiguidades",
+    "descricao": "Uma biblioteca histórica com um museu de antiguidades.",
+    "imagem": "https://raw.githubusercontent.com/theonascimento/Arjs-ImageMaker/main/IMG_20240830_141443.jpg",
+    "video": "https://www.youtube.com/watch?v=FWAYD0c3AwE",
+    "latitude": -20.950442,
+    "longitude": -41.341745
+  },
+
+  {
+    "id": 2,
+    "nome": "Parque de Exposição de Muqui",
+    "descricao": "Um parque de exposição que tem show e eventos culturais em muqui",
+    "imagem": "https://raw.githubusercontent.com/theonascimento/Arjs-ImageMaker/main/IMG_20240830_141443.jpg",
+    "video": "https://www.youtube.com/watch?v=FWAYD0c3AwE",
+    "latitude": -20.945755,
+    "longitude": -41.345579
+  }
+
+]
   
