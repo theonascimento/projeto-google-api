@@ -4,30 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Realidade Aumentada com Locais Cadastrados</title>
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-    }
-    #info-box {
-      display: none;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: white;
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o arquivo CSS externo -->
 </head>
 <body>
-  <h1>RA com Locais Personalizados</h1>
+  <h1>Teste com Locais Personalizados</h1>
   <div id="map"></div>
   <div id="info-box">
+    <button class="close-btn" onclick="fecharInformacoes()">Fechar</button>
     <h2 id="place-name"></h2>
     <p id="place-description"></p>
-    <img id="place-image" src="" alt="" width="200">
-    <video id="place-video" controls width="200"></video>
+    <img id="place-image" src="" alt="">
+    <video id="place-video" controls></video>
   </div>
 
   <!-- Google Maps JavaScript API -->
@@ -36,7 +23,6 @@
   <script>
     let locaisCadastrados = [];
 
-    // Carrega os locais cadastrados
     async function carregarLocais() {
       try {
         const response = await fetch('locais.json');
@@ -47,24 +33,20 @@
     }
 
     function initMap() {
-      // Mapa centrado na localização atual do usuário
       const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
       });
 
-      // Obtém a localização do usuário
       navigator.geolocation.getCurrentPosition((position) => {
         const userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
         map.setCenter(userLocation);
 
-        // Adiciona um marcador para a posição do usuário
         new google.maps.Marker({
           position: userLocation,
           map: map,
           title: 'Você está aqui',
         });
 
-        // Verifica se o usuário está próximo de algum local cadastrado
         verificarProximidade(userLocation, map);
       }, showError);
     }
@@ -74,16 +56,17 @@
         const localPosicao = { lat: local.latitude, lng: local.longitude };
         const distancia = calcularDistancia(userLocation, localPosicao);
 
-        // Define uma distância de proximidade (por exemplo, 500 metros)
-        if (distancia < 0.5) { // 0.5 km = 500 metros
+        if (distancia < 0.5) {
           const marker = new google.maps.Marker({
             position: localPosicao,
             map: map,
             title: local.nome,
-            icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            icon: {
+              url: 'https://maps.google.com/mapfiles/ms/icons/ltblue-dot.png', // Ícone azul claro
+              scaledSize: new google.maps.Size(40, 40), // Tamanho ajustado
+            }
           });
 
-          // Exibe as informações quando o ícone é clicado
           marker.addListener('click', () => {
             mostrarInformacoes(local);
           });
@@ -92,15 +75,14 @@
     }
 
     function calcularDistancia(loc1, loc2) {
-      const R = 6371; // Raio da Terra em km
+      const R = 6371;
       const dLat = (loc2.lat - loc1.lat) * (Math.PI / 180);
       const dLon = (loc2.lng - loc1.lng) * (Math.PI / 180);
-      const a = 
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(loc1.lat * (Math.PI / 180)) * Math.cos(loc2.lat * (Math.PI / 180)) * 
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(loc1.lat * (Math.PI / 180)) * Math.cos(loc2.lat * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c; // Distância em km
+      return R * c;
     }
 
     function mostrarInformacoes(local) {
@@ -109,6 +91,11 @@
       document.getElementById('place-image').src = local.imagem;
       document.getElementById('place-video').src = local.video;
       document.getElementById('info-box').style.display = 'block';
+    }
+
+    function fecharInformacoes() {
+      document.getElementById('info-box').style.display = 'none';
+      document.getElementById('place-video').pause(); // Pausa o vídeo ao fechar
     }
 
     function showError(error) {

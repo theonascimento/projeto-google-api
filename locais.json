@@ -5,8 +5,8 @@
     "descricao": "Uma biblioteca histórica com um museu de antiguidades.",
     "imagem": "https://raw.githubusercontent.com/theonascimento/Arjs-ImageMaker/main/IMG_20240830_141443.jpg",
     "video": "https://www.youtube.com/watch?v=FWAYD0c3AwE",
-    "latitude": -20.950442,
-    "longitude": -41.341745
+    "latitude": -20.950361,
+    "longitude": -41.341757
   },
 
   {
@@ -17,6 +17,16 @@
     "video": "https://www.youtube.com/watch?v=FWAYD0c3AwE",
     "latitude": -20.945755,
     "longitude": -41.345579
+  },
+
+  {
+    "id": 3,
+    "nome": "Parque de Exposição de Muqui",
+    "descricao": "Um parque de exposição que tem show e eventos culturais em muqui",
+    "imagem": "https://raw.githubusercontent.com/theonascimento/Arjs-ImageMaker/main/IMG_20240830_141443.jpg",
+    "video": "https://www.youtube.com/watch?v=FWAYD0c3AwE",
+    "latitude": -20.802841,
+    "longitude": -41.154203
   }
 
 ]
