@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Realidade Aumentada com Locais Cadastrados</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Link para o arquivo CSS externo -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o arquivo CSS -->
 </head>
 <body>
   <h1>Teste com Locais Personalizados</h1>
@@ -62,8 +62,8 @@
             map: map,
             title: local.nome,
             icon: {
-              url: 'https://maps.google.com/mapfiles/ms/icons/ltblue-dot.png', // Ícone azul claro
-              scaledSize: new google.maps.Size(40, 40), // Tamanho ajustado
+              url: 'https://maps.google.com/mapfiles/ms/icons/ltblue-dot.png', // Ícone do maps
+              scaledSize: new google.maps.Size(50, 50), // Ajustar tamanho do icone
             }
           });
 
@@ -89,7 +89,13 @@
       document.getElementById('place-name').innerText = local.nome;
       document.getElementById('place-description').innerText = local.descricao;
       document.getElementById('place-image').src = local.imagem;
-      document.getElementById('place-video').src = local.video;
+
+      // Verifica se o link é do YouTube e transforma no embed, senão apenas define o src
+      const videoSrc = local.video.includes("youtube.com") 
+        ? local.video.replace("watch?v=", "embed/") 
+        : local.video;
+
+      document.getElementById('place-video').src = videoSrc;
       document.getElementById('info-box').style.display = 'block';
     }
 
