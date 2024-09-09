@@ -91,17 +91,21 @@
       document.getElementById('place-image').src = local.imagem;
 
       // Verifica se o link é do YouTube e transforma no embed, senão apenas define o src
+      const videoElement = document.getElementById('place-video');
       const videoSrc = local.video.includes("youtube.com") 
         ? local.video.replace("watch?v=", "embed/") 
         : local.video;
+        
+      videoElement.src = videoSrc;
+      videoElement.type = local.video.includes("youtube.com") ? '' : 'video/mp4'; // Define o tipo do vídeo
 
-      document.getElementById('place-video').src = videoSrc;
       document.getElementById('info-box').style.display = 'block';
     }
 
     function fecharInformacoes() {
       document.getElementById('info-box').style.display = 'none';
       document.getElementById('place-video').pause(); // Pausa o vídeo ao fechar
+      document.getElementById('place-video').src = ''; // Limpa o src para parar o vídeo
     }
 
     function showError(error) {

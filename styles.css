@@ -17,8 +17,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   max-width: 300px;
-  max-height: 80vh; /* Limite de altura */
-  overflow-y: auto; /* Adiciona a rolagem vertical */
+  max-height: 80vh; /* Limita a altura da caixa */
+  overflow-y: auto; /* Permite rolar se o conteúdo for maior */
 }
 
 #info-box h2 {
@@ -44,7 +44,6 @@
   width: 100%;
   border-radius: 4px;
   margin-bottom: 10px;
-  aspect-ratio: 16/9; /* Para vídeos do YouTube ficarem proporcionais */
 }
 
 .close-btn {
