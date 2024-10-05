@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Realidade Aumentada com Locais Cadastrados</title>
+  <title>Maps com Locais Cadastrados</title>
   <link rel="stylesheet" href="styles.css"> <!-- Link para o arquivo CSS -->
 </head>
 <body>
-  <h1>Teste com Locais Personalizados</h1>
+  <h1>Experiência RA</h1>
   <div id="map"></div>
   <div id="info-box">
     <button class="close-btn" onclick="fecharInformacoes()">Fechar</button>
@@ -56,14 +56,14 @@
         const localPosicao = { lat: local.latitude, lng: local.longitude };
         const distancia = calcularDistancia(userLocation, localPosicao);
 
-        if (distancia < 0.5) {
+        if (distancia < 0.1) {   //0.1 é distancia de 100 metros
           const marker = new google.maps.Marker({
             position: localPosicao,
             map: map,
             title: local.nome,
             icon: {
               url: 'https://maps.google.com/mapfiles/ms/icons/ltblue-dot.png', // Ícone do maps
-              scaledSize: new google.maps.Size(50, 50), // Ajustar tamanho do icone
+              scaledSize: new google.maps.Size(45, 45), // Ajustar tamanho do icone
             }
           });
 
